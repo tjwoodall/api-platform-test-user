@@ -63,7 +63,7 @@ object JsonFormatters {
   implicit val formatMdtpInformation: OFormat[MdtpInformation]               = Json.format[MdtpInformation]
   implicit val formatGovernmentGatewayLogin: OFormat[GovernmentGatewayLogin] = Json.format[GovernmentGatewayLogin]
 
-  implicit val formatDesSimulatorTestIndividual: OFormat[DesSimulatorTestIndividual]     = Json.format[DesSimulatorTestIndividual]
-  implicit val formatDesSimulatorTestOrganisation: OFormat[DesSimulatorTestOrganisation] = Json.format[DesSimulatorTestOrganisation]
+  implicit val formatMtdSaApiStubTestIndividual: OFormat[MtdSaApiStubTestIndividual]     = Json.format[MtdSaApiStubTestIndividual]
+  implicit val formatMtdSaApiStubTestOrganisation: OFormat[MtdSaApiStubTestOrganisation] = Json.format[MtdSaApiStubTestOrganisation]
 
 }

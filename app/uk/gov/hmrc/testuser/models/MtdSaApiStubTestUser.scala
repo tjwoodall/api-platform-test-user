@@ -16,13 +16,13 @@
 
 package uk.gov.hmrc.testuser.models
 
-case class DesSimulatorTestIndividual(mtdItId: Option[String], vrn: Option[String], nino: Option[String], saUtr: Option[String])
+case class MtdSaApiStubTestIndividual(mtdItId: Option[String], vrn: Option[String], nino: Option[String], saUtr: Option[String])
 
-object DesSimulatorTestIndividual {
-  def from(individual: TestIndividual) = DesSimulatorTestIndividual(individual.mtdItId, individual.vrn, individual.nino, individual.saUtr)
+object MtdSaApiStubTestIndividual {
+  def from(individual: TestIndividual) = MtdSaApiStubTestIndividual(individual.mtdItId, individual.vrn, individual.nino, individual.saUtr)
 }
 
-case class DesSimulatorTestOrganisation(
+case class MtdSaApiStubTestOrganisation(
     mtdItId: Option[String],
     nino: Option[String],
     saUtr: Option[String],
@@ -31,10 +31,10 @@ case class DesSimulatorTestOrganisation(
     vrn: Option[String]
   )
 
-object DesSimulatorTestOrganisation {
+object MtdSaApiStubTestOrganisation {
 
   def from(organisation: TestOrganisation) =
-    DesSimulatorTestOrganisation(
+    MtdSaApiStubTestOrganisation(
       organisation.mtdItId,
       organisation.nino,
       organisation.saUtr,

@@ -22,7 +22,7 @@ import play.api.http.Status.{CREATED, INTERNAL_SERVER_ERROR}
 
 import uk.gov.hmrc.testuser.helpers.MockHost
 
-object DesSimulatorStub extends MockHost(11112) {
+object MtdSaApiStubStub extends MockHost(11112) {
 
   def willSuccessfullyCreateTestIndividual() = {
     mock.register(post(urlPathEqualTo("/test-users/individuals"))

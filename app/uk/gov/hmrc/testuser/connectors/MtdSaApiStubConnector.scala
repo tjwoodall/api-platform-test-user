@@ -31,7 +31,7 @@ import uk.gov.hmrc.testuser.models._
 import uk.gov.hmrc.testuser.services.ApplicationLogger
 
 @Singleton
-class DesSimulatorConnector @Inject() (
+class MtdSaApiStubConnector @Inject() (
     httpClient: HttpClientV2,
     runModeConfiguration: Configuration,
     environment: Environment,
@@ -41,12 +41,12 @@ class DesSimulatorConnector @Inject() (
 
   import config.baseUrl
 
-  lazy val serviceUrl: String = baseUrl("des-simulator")
+  lazy val serviceUrl: String = baseUrl("mtd-sa-api-stub")
 
   def createIndividual(individual: TestIndividual)(implicit hc: HeaderCarrier): Future[TestIndividual] = {
-    logger.info(s"Calling des-simulator ($serviceUrl) to create individual $individual")
+    logger.info(s"Calling mtd-sa-api-stub ($serviceUrl) to create individual $individual")
     httpClient.post(url"$serviceUrl/test-users/individuals")
-      .withBody(Json.toJson(DesSimulatorTestIndividual.from(individual)))
+      .withBody(Json.toJson(MtdSaApiStubTestIndividual.from(individual)))
       .execute[Either[UpstreamErrorResponse, HttpResponse]]
       .map {
         case Right(_)  => individual
@@ -55,9 +55,9 @@ class DesSimulatorConnector @Inject() (
   }
 
   def createOrganisation(organisation: TestOrganisation)(implicit hc: HeaderCarrier): Future[TestOrganisation] = {
-    logger.info(s"Calling des-simulator ($serviceUrl) to create organisation $organisation")
+    logger.info(s"Calling mtd-sa-api-stub ($serviceUrl) to create organisation $organisation")
     httpClient.post(url"$serviceUrl/test-users/organisations")
-      .withBody(Json.toJson(DesSimulatorTestOrganisation.from(organisation)))
+      .withBody(Json.toJson(MtdSaApiStubTestOrganisation.from(organisation)))
       .execute[Either[UpstreamErrorResponse, HttpResponse]]
       .map {
         case Right(_)  => organisation

@@ -25,7 +25,7 @@ import uk.gov.hmrc.domain._
 import uk.gov.hmrc.http.HeaderCarrier
 
 import uk.gov.hmrc.testuser.common.utils.AsyncHmrcSpec
-import uk.gov.hmrc.testuser.connectors.DesSimulatorConnector
+import uk.gov.hmrc.testuser.connectors.MtdSaApiStubConnector
 import uk.gov.hmrc.testuser.models.ServiceKey._
 import uk.gov.hmrc.testuser.models._
 import uk.gov.hmrc.testuser.repository.TestUserRepository
@@ -99,7 +99,7 @@ class TestUserServiceSpec extends AsyncHmrcSpec {
     val mockTestUserRepository = mock[TestUserRepository]
     val generator              = new Generator(mockTestUserRepository, config)
 
-    val underTest = new TestUserService(mock[PasswordService], mock[DesSimulatorConnector], mockTestUserRepository, mock[Generator])
+    val underTest = new TestUserService(mock[PasswordService], mock[MtdSaApiStubConnector], mockTestUserRepository, mock[Generator])
     when(underTest.testUserRepository.createUser(*[TestUser])).thenAnswer((testUser: TestUser) => successful(testUser))
     when(underTest.testUserRepository.fetchByUserId(*)).thenReturn(successful(None))
     when(underTest.passwordService.validate(*, *)).thenReturn(false)
@@ -140,10 +140,10 @@ class TestUserServiceSpec extends AsyncHmrcSpec {
 
       val testIndividualWithHashedPassword = testIndividual.copy(password = hashedPassword)
       verify(underTest.testUserRepository).createUser(testIndividualWithHashedPassword)
-      verify(underTest.desSimulatorConnector).createIndividual(testIndividualWithHashedPassword)
+      verify(underTest.mtdSaApiStubConnector).createIndividual(testIndividualWithHashedPassword)
     }
 
-    "Not call the DES simulator when the individual does not have the mtd-income-tax service" in new Setup {
+    "Not call the Mtd SA API Stub when the individual does not have the mtd-income-tax service" in new Setup {
       val hashedPassword = "hashedPassword"
       when(underTest.generator.generateTestIndividual(Seq.empty, None, None)).thenReturn(successful(testIndividualWithNoServices))
       when(underTest.passwordService.hash(testIndividualWithNoServices.password)).thenReturn(hashedPassword)
@@ -154,7 +154,7 @@ class TestUserServiceSpec extends AsyncHmrcSpec {
 
       val testIndividualWithHashedPassword = testIndividualWithNoServices.copy(password = hashedPassword)
       verify(underTest.testUserRepository).createUser(testIndividualWithHashedPassword)
-      verify(underTest.desSimulatorConnector, times(0)).createIndividual(testIndividualWithHashedPassword)
+      verify(underTest.mtdSaApiStubConnector, times(0)).createIndividual(testIndividualWithHashedPassword)
     }
 
     "fail when the repository fails" in new Setup {
@@ -176,7 +176,7 @@ class TestUserServiceSpec extends AsyncHmrcSpec {
       result shouldBe Left(NinoAlreadyUsed)
 
       verify(underTest.testUserRepository, times(0)).createUser(any)
-      verify(underTest.desSimulatorConnector, times(0)).createIndividual(any)(any)
+      verify(underTest.mtdSaApiStubConnector, times(0)).createIndividual(any)(any)
     }
   }
 
@@ -194,10 +194,10 @@ class TestUserServiceSpec extends AsyncHmrcSpec {
 
       val testOrgWithHashedPassword = testOrganisation.copy(password = hashedPassword)
       verify(underTest.testUserRepository).createUser(testOrgWithHashedPassword)
-      verify(underTest.desSimulatorConnector).createOrganisation(testOrgWithHashedPassword)
+      verify(underTest.mtdSaApiStubConnector).createOrganisation(testOrgWithHashedPassword)
     }
 
-    "Not call the DES simulator when the organisation does not have the mtd-income-tax service" in new Setup {
+    "Not call the Mtd SA API Stub when the organisation does not have the mtd-income-tax service" in new Setup {
 
       val hashedPassword = "hashedPassword"
       when(underTest.generator.generateTestOrganisation(Seq.empty, None, None, None, None, None)).thenReturn(successful(testOrganisationWithNoServices))
@@ -209,7 +209,7 @@ class TestUserServiceSpec extends AsyncHmrcSpec {
 
       val testOrgWithHashedPassword = testOrganisationWithNoServices.copy(password = hashedPassword)
       verify(underTest.testUserRepository).createUser(testOrgWithHashedPassword)
-      verify(underTest.desSimulatorConnector, times(0)).createOrganisation(testOrgWithHashedPassword)
+      verify(underTest.mtdSaApiStubConnector, times(0)).createOrganisation(testOrgWithHashedPassword)
     }
 
     "fail when the repository fails" in new Setup {
@@ -231,7 +231,7 @@ class TestUserServiceSpec extends AsyncHmrcSpec {
       result shouldBe Left(NinoAlreadyUsed)
 
       verify(underTest.testUserRepository, times(0)).createUser(any)
-      verify(underTest.desSimulatorConnector, times(0)).createIndividual(any)(any)
+      verify(underTest.mtdSaApiStubConnector, times(0)).createIndividual(any)(any)
     }
 
     "fail when the pillar2Id validation fails" in new Setup {
