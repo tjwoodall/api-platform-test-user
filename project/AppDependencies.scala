@@ -22,7 +22,7 @@ object AppDependencies {
     "uk.gov.hmrc.mongo"             %% "hmrc-mongo-test-play-30"              % mongoVersion,
     "uk.gov.hmrc"                   %% "api-platform-common-domain-fixtures"  % commonDomainVersion,
     "org.scalatestplus"             %% "scalacheck-1-15"                      % "3.2.11.0",
-    "org.pegdown"                    % "pegdown"                              % "1.6.0",
+    // "org.pegdown"                    % "pegdown"                              % "1.6.0",
     "com.softwaremill.sttp.client3" %% "core"                                 % "3.9.8"
 
   ).map(m => m % "test")

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.testuser.controllers
+package uk.gov.hmrc.testuser.documentation.controllers
 
 import javax.inject.{Inject, Singleton}
 
