@@ -22,7 +22,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import uk.gov.hmrc.domain.{CtUtr, EmpRef, Nino, SaUtr, Vrn}
 import uk.gov.hmrc.http.HeaderCarrier
 
-import uk.gov.hmrc.testuser.connectors.DesSimulatorConnector
+import uk.gov.hmrc.testuser.connectors.MtdSaApiStubConnector
 import uk.gov.hmrc.testuser.models.ServiceKey._
 import uk.gov.hmrc.testuser.models.UserType.{INDIVIDUAL, ORGANISATION}
 import uk.gov.hmrc.testuser.models._
@@ -35,7 +35,7 @@ object Pillar2IdAlreadyUsed extends CreateTestUserError
 @Singleton
 class TestUserService @Inject() (
     val passwordService: PasswordService,
-    val desSimulatorConnector: DesSimulatorConnector,
+    val mtdSaApiStubConnector: MtdSaApiStubConnector,
     val testUserRepository: TestUserRepository,
     val generator: Generator
   )(implicit ec: ExecutionContext
@@ -90,7 +90,7 @@ class TestUserService @Inject() (
 
       testUserRepository.createUser(individual.copy(password = hashedPassword)) map {
         case createdIndividual if createdIndividual.services.contains(MTD_INCOME_TAX) =>
-          desSimulatorConnector.createIndividual(createdIndividual)
+          mtdSaApiStubConnector.createIndividual(createdIndividual)
         case _                                                                        => individual
       } map {
         _ => individual
@@ -114,7 +114,7 @@ class TestUserService @Inject() (
 
       testUserRepository.createUser(organisation.copy(password = hashedPassword)) map {
         case createdOrganisation if createdOrganisation.services.contains(MTD_INCOME_TAX) =>
-          desSimulatorConnector.createOrganisation(createdOrganisation)
+          mtdSaApiStubConnector.createOrganisation(createdOrganisation)
         case _                                                                            => organisation
       } map {
         _ => organisation

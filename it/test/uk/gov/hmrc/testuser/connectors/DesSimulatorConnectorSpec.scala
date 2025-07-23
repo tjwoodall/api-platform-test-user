@@ -29,11 +29,11 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import uk.gov.hmrc.testuser.common.utils.AsyncHmrcSpec
 import uk.gov.hmrc.testuser.helpers.GeneratorProvider
-import uk.gov.hmrc.testuser.helpers.stubs.DesSimulatorStub
+import uk.gov.hmrc.testuser.helpers.stubs.MtdSaApiStubStub
 import uk.gov.hmrc.testuser.models.ServiceKey._
 import uk.gov.hmrc.testuser.repository.TestUserRepository
 
-class DesSimulatorConnectorSpec extends AsyncHmrcSpec with GuiceOneAppPerSuite with BeforeAndAfterEach with BeforeAndAfterAll {
+class MtdSaApiStubConnectorSpec extends AsyncHmrcSpec with GuiceOneAppPerSuite with BeforeAndAfterEach with BeforeAndAfterAll {
 
   trait Setup extends GeneratorProvider {
     val repository = mock[TestUserRepository]
@@ -44,41 +44,41 @@ class DesSimulatorConnectorSpec extends AsyncHmrcSpec with GuiceOneAppPerSuite w
 
     implicit val hc: HeaderCarrier = HeaderCarrier()
 
-    val underTest = new DesSimulatorConnector(
+    val underTest = new MtdSaApiStubConnector(
       fakeApplication().injector.instanceOf[HttpClientV2],
       fakeApplication().injector.instanceOf[Configuration],
       fakeApplication().injector.instanceOf[Environment],
       fakeApplication().injector.instanceOf[ServicesConfig]
     ) {
-      override lazy val serviceUrl: String = DesSimulatorStub.url
+      override lazy val serviceUrl: String = MtdSaApiStubStub.url
     }
   }
 
   override def beforeAll(): Unit = {
     super.beforeAll()
-    DesSimulatorStub.server.start()
+    MtdSaApiStubStub.server.start()
   }
 
   override def beforeEach(): Unit = {
     super.beforeEach()
-    DesSimulatorStub.server.resetMappings()
+    MtdSaApiStubStub.server.resetMappings()
   }
 
   override def afterAll(): Unit = {
     super.afterAll()
-    DesSimulatorStub.server.stop()
+    MtdSaApiStubStub.server.stop()
   }
 
   "createIndividual" should {
     "create a test individual" in new Setup {
-      DesSimulatorStub.willSuccessfullyCreateTestIndividual()
+      MtdSaApiStubStub.willSuccessfullyCreateTestIndividual()
 
       val result = await(underTest.createIndividual(testIndividual))
       result shouldBe testIndividual
     }
 
-    "fail when the DesSimulator returns an error" in new Setup {
-      DesSimulatorStub.willFailWhenCreatingTestIndividual()
+    "fail when the MtdSaApiStub returns an error" in new Setup {
+      MtdSaApiStubStub.willFailWhenCreatingTestIndividual()
 
       intercept[UpstreamErrorResponse] {
         await(underTest.createIndividual(testIndividual))
@@ -88,14 +88,14 @@ class DesSimulatorConnectorSpec extends AsyncHmrcSpec with GuiceOneAppPerSuite w
 
   "createOrganisation" should {
     "create a test organisation" in new Setup {
-      DesSimulatorStub.willSuccessfullyCreateTestOrganisation()
+      MtdSaApiStubStub.willSuccessfullyCreateTestOrganisation()
 
       val result = await(underTest.createOrganisation(testOrganisation))
       result shouldBe testOrganisation
     }
 
-    "fail when the DesSimulator returns an error" in new Setup {
-      DesSimulatorStub.willFailWhenCreatingTestOrganisation()
+    "fail when the MtdSaApiStub returns an error" in new Setup {
+      MtdSaApiStubStub.willFailWhenCreatingTestOrganisation()
 
       intercept[UpstreamErrorResponse] {
         await(underTest.createOrganisation(testOrganisation))

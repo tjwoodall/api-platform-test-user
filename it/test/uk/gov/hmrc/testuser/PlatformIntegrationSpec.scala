@@ -23,7 +23,7 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 
 import uk.gov.hmrc.testuser.common.utils.AsyncHmrcSpec
-import uk.gov.hmrc.testuser.controllers.DocumentationController
+import uk.gov.hmrc.testuser.documentation.controllers.DocumentationController
 
 /** Testcase to verify the capability of integration with the API platform. 1a, To expose API's to Third Party Developers, the service needs to make the API definition available
   * under api/definition GET endpoint 1b, The endpoints need to be defined in an application.raml file for all versions
