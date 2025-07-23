@@ -32,7 +32,7 @@ paths:
                 allOf:
                 - $ref: './schemas/create-individual-response.json'
       security:
-      - applicationRestricted: []
+      - Application-Restricted: []
       deprecated: false
   /create-test-user/organisations:
     post:
@@ -59,7 +59,7 @@ paths:
                 allOf:
                 - $ref: './schemas/create-organisation-response.json'
       security:
-      - applicationRestricted: []
+      - Application-Restricted: []
       deprecated: false
   /create-test-user/agents:
     post:
@@ -86,7 +86,7 @@ paths:
                 allOf:
                 - $ref: './schemas/create-agent-response.json'
       security:
-      - applicationRestricted: []
+      - Application-Restricted: []
       deprecated: false
   /create-test-user/services:
     get:
@@ -106,11 +106,11 @@ paths:
                 allOf:
                 - $ref: './schemas/get-services-response.json'
       security:
-      - applicationRestricted: []
+      - Application-Restricted: []
       deprecated: false
 components:
   securitySchemes:
-    applicationRestricted:
+    Application-Restricted:
       type: oauth2
       description: |
         HMRC supports OAuth 2.0 for authenticating application restricted API requests using an OAuth 2.0 Bearer Token in the AUTHORIZATION header.
