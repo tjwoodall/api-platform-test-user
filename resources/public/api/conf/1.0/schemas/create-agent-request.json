@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "Create Agent Request",
+  "type": "object",
+  "properties": {
+    "serviceNames": {
+      "type": "array",
+      "description": "A list of services that the user should be enrolled for. To create a test user with no services, leave the list empty.",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "oneOf": [
+          {
+            "title": "agent-services",
+            "enum": ["agent-services"],
+            "description" : "Generates an agent services account reference number and enrols the user for agent services."
+          }
+        ]
+      },
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "serviceNames"
+  ]
+}
