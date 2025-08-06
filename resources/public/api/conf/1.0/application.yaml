@@ -1,0 +1,124 @@
+openapi: 3.0.3
+info:
+  title: Create Test User
+  contact: {}
+  version: '1.0'
+servers:
+- url: https://test-api.service.hmrc.gov.uk/
+  variables: {}
+paths:
+  /create-test-user/individuals:
+    post:
+      tags:
+      - create-test-user
+      summary: Create a test user which is an individual
+      description: This resource creates and returns a test user which is an individual. The caller can specify the required service enrolments in the request body. If no request body is supplied, the test user is created with no service enrolments.  Test users that have not been tested against within a 3-month period will be automatically deleted.
+      operationId: Createatestuserwhichisanindividual
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: './schemas/create-individual-request.json'
+      responses:
+        '201':
+          description: The individual test user resource has been created.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: './schemas/create-individual-response.json'
+      security:
+      - applicationRestricted: []
+      deprecated: false
+  /create-test-user/organisations:
+    post:
+      tags:
+      - create-test-user
+      summary: Create a test user which is an organisation
+      description: This resource creates and returns a test user which is an organisation. The caller can specify the required service enrolments in the request body. If no request body is supplied, the test user is created with no service enrolments.  Test users that have not been tested against within a 3-month period will be automatically deleted.
+      operationId: Createatestuserwhichisanorganisation
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: './schemas/create-organisation-request.json'
+      responses:
+        '201':
+          description: The organisation test user resource has been created.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: './schemas/create-organisation-response.json'
+      security:
+      - applicationRestricted: []
+      deprecated: false
+  /create-test-user/agents:
+    post:
+      tags:
+      - create-test-user
+      summary: Create a test user which is an agent
+      description: This resource creates and returns a test user which is an agent. The caller can specify the required service enrolments in the request body. If no request body is supplied, the test user is created with no service enrolments.  Test users that have not been tested against within a 3-month period will be automatically deleted.
+      operationId: Createatestuserwhichisanagent
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: './schemas/create-agent-request.json'
+      responses:
+        '201':
+          description: The agent test user resource has been created.
+          headers: {}
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: './schemas/create-agent-response.json'
+      security:
+      - applicationRestricted: []
+      deprecated: false
+  /create-test-user/services:
+    get:
+      tags:
+      - create-test-user
+      summary: Get available services
+      description: This resource provides a list of all the available services together with which test user types can enrol to each.
+      operationId: Getavailableservices
+      parameters: []
+      responses:
+        '200':
+          description: The services available for enrolment
+          headers: {}
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: './schemas/get-services-response.json'
+      security:
+      - applicationRestricted: []
+      deprecated: false
+components:
+  securitySchemes:
+    applicationRestricted:
+      type: oauth2
+      description: |
+        HMRC supports OAuth 2.0 for authenticating application restricted API requests using an OAuth 2.0 Bearer Token in the AUTHORIZATION header.
+        See https://developer.service.hmrc.gov.uk/api-documentation/docs/authorisation/application-restricted-endpoints for details.
+      flows:
+        clientCredentials:
+          tokenUrl: https://test-api.service.hmrc.gov.uk/oauth/token
+          scopes: {}
+tags:
+- name: create-test-user
+  description: ''
