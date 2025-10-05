@@ -4,7 +4,7 @@ info:
   contact: {}
   version: '1.0'
 servers:
-- url: https://test-api.service.hmrc.gov.uk/
+- url: https://test-api.service.hmrc.gov.uk
   variables: {}
 paths:
   /create-test-user/individuals:
