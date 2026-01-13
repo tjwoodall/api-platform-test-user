@@ -1,0 +1,1137 @@
+openapi: 3.0.3
+info:
+  title: Create Test User
+  contact: {}
+  version: "1.0"
+servers:
+- url: https://test-api.service.hmrc.gov.uk/
+tags:
+- name: create-test-user
+  description: ""
+paths:
+  /create-test-user/individuals:
+    post:
+      tags:
+      - create-test-user
+      summary: Create a test user which is an individual
+      description: "This resource creates and returns a test user which is an individual.\
+        \ The caller can specify the required service enrolments in the request body.\
+        \ If no request body is supplied, the test user is created with no service\
+        \ enrolments.  Test users that have not been tested against within a 3-month\
+        \ period will be automatically deleted."
+      operationId: Createatestuserwhichisanindividual
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              required:
+              - serviceNames
+              type: object
+              properties:
+                serviceNames:
+                  minItems: 0
+                  uniqueItems: true
+                  type: array
+                  description: "A list of services that the user should be enrolled\
+                    \ for. To create a test user with no services, leave the list\
+                    \ empty."
+                  items:
+                    type: string
+                    oneOf:
+                    - title: national-insurance
+                      type: object
+                      description: Generates a National Insurance number and enrols
+                        the user for National Insurance.
+                      enum:
+                      - national-insurance
+                    - title: self-assessment
+                      type: object
+                      description: Generates a Self Assessment UTR and enrols the
+                        user for Self Assessment.
+                      enum:
+                      - self-assessment
+                    - title: mtd-income-tax
+                      type: object
+                      description: Generates a National Insurance number and a Making
+                        Tax Digital Income Tax ID and enrols the user for Making Tax
+                        Digital Income Tax.
+                      enum:
+                      - mtd-income-tax
+                    - title: customs-services
+                      type: object
+                      description: Generates an EORI number and enrols the user for
+                        Customs Services.
+                      enum:
+                      - customs-services
+                    - title: goods-vehicle-movements
+                      type: object
+                      description: Generates an EORI number and enrols the user for
+                        Goods Vehicle Movements.
+                      enum:
+                      - goods-vehicle-movements
+                    - title: import-control-system
+                      type: object
+                      description: Generates an EORI number and enrols the user for
+                        Import Control System.
+                      enum:
+                      - import-control-system
+                    - title: mtd-vat
+                      type: object
+                      description: Generates a VAT Registration Number and a date
+                        of registration for VAT and enrols the user for Making Tax
+                        Digital VAT.
+                      enum:
+                      - mtd-vat
+                    - title: common-transit-convention-traders
+                      type: object
+                      description: Generates an EORI number and enrols the user for
+                        Common Transit Convention Traders.
+                      enum:
+                      - common-transit-convention-traders
+                    - title: common-transit-convention-traders-legacy
+                      type: object
+                      description: Generates an EORI number and enrols the user for
+                        legacy Common Transit Convention Traders.
+                      enum:
+                      - common-transit-convention-traders-legacy
+                eoriNumber:
+                  maxLength: 17
+                  minLength: 3
+                  type: string
+                  description: "Economic Operator Registration and Identification\
+                    \ (EORI) number. Regular expressions:<br><code>^(GB|XI)[0-9]{12,15}$</code>\
+                    \ A GB or XI EORI.<br><code>^[A-Z]{2}[0-9]{1,15}$</code> An EU\
+                    \ EORI."
+                nino:
+                  type: string
+                  description: National Insurance number. Must be enrolled with 'national-insurance'
+                    or 'mtd-income-tax' services for this to be used.
+              description: Create Individual Request
+      responses:
+        "201":
+          description: The individual test user resource has been created.
+          content:
+            application/json:
+              schema:
+                required:
+                - emailAddress
+                - individualDetails
+                - password
+                - userFullName
+                - userId
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    description: Government Gateway ID.
+                  password:
+                    type: string
+                    description: Government Gateway password.
+                  userFullName:
+                    type: string
+                    description: Government Gateway user's full name.
+                  emailAddress:
+                    type: string
+                    description: Government Gateway user's email address.
+                  individualDetails:
+                    required:
+                    - address
+                    - dateOfBirth
+                    - firstName
+                    - lastName
+                    type: object
+                    properties:
+                      firstName:
+                        type: string
+                        description: Individual's first name.
+                      lastName:
+                        type: string
+                        description: Individual's last name.
+                      dateOfBirth:
+                        type: string
+                        description: Individual's date of birth.
+                        format: date
+                      address:
+                        required:
+                        - line1
+                        - line2
+                        - postcode
+                        type: object
+                        properties:
+                          line1:
+                            type: string
+                            description: Individual's first line of address.
+                          line2:
+                            type: string
+                            description: Individual's second line of address.
+                          postcode:
+                            type: string
+                            description: Individual's postcode.
+                  saUtr:
+                    type: string
+                    description: Self Assessment UTR.
+                  nino:
+                    type: string
+                    description: National Insurance number.
+                  mtdItId:
+                    type: string
+                    description: Making Tax Digital Income Tax ID.
+                  eoriNumber:
+                    type: string
+                    description: Economic Operator Registration and Identification
+                      (EORI) number.
+                  vrn:
+                    type: string
+                    description: VAT Reference Number.
+                  vatRegistrationDate:
+                    type: string
+                    description: Date of registration for VAT.
+                    format: date
+                description: Create Individual Response
+      deprecated: false
+      security:
+      - applicationRestricted: []
+  /create-test-user/organisations:
+    post:
+      tags:
+      - create-test-user
+      summary: Create a test user which is an organisation
+      description: "This resource creates and returns a test user which is an organisation.\
+        \ The caller can specify the required service enrolments in the request body.\
+        \ If no request body is supplied, the test user is created with no service\
+        \ enrolments.  Test users that have not been tested against within a 3-month\
+        \ period will be automatically deleted."
+      operationId: Createatestuserwhichisanorganisation
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              required:
+              - serviceNames
+              type: object
+              properties:
+                serviceNames:
+                  minItems: 0
+                  uniqueItems: true
+                  type: array
+                  description: "A list of services that the user should be enrolled\
+                    \ for. To create a test user with no services, leave the list\
+                    \ empty."
+                  items:
+                    type: string
+                    oneOf:
+                    - title: corporation-tax
+                      type: object
+                      description: "Generates a Corporation Tax Unique Taxpayer Reference\
+                        \ (CTUTR), a Company Registration Number (CRN) and enrols\
+                        \ the user for Corporation Tax."
+                      enum:
+                      - corporation-tax
+                    - title: paye-for-employers
+                      type: object
+                      description: Generates an Employer Reference and enrols the
+                        user for PAYE for Employers.
+                      enum:
+                      - paye-for-employers
+                    - title: submit-vat-returns
+                      type: object
+                      description: Generates a VAT Registration Number and enrols
+                        the user for Submit VAT Returns.
+                      enum:
+                      - submit-vat-returns
+                    - title: national-insurance
+                      type: object
+                      description: Generates a National Insurance number and enrols
+                        the user for National Insurance.
+                      enum:
+                      - national-insurance
+                    - title: self-assessment
+                      type: object
+                      description: Generates a Self Assessment UTR and enrols the
+                        user for Self Assessment.
+                      enum:
+                      - self-assessment
+                    - title: mtd-income-tax
+                      type: object
+                      description: Generates a National Insurance number and a Making
+                        Tax Digital Income Tax ID and enrols the user for Making Tax
+                        Digital Income Tax.
+                      enum:
+                      - mtd-income-tax
+                    - title: mtd-vat
+                      type: object
+                      description: Generates a VAT Registration Number and a date
+                        of registration for VAT and enrols the user for Making Tax
+                        Digital VAT.
+                      enum:
+                      - mtd-vat
+                    - title: lisa
+                      type: object
+                      description: Generates a LISA Manager Reference Number and enrols
+                        the user for Lifetime ISA.
+                      enum:
+                      - lisa
+                    - title: secure-electronic-transfer
+                      type: object
+                      description: Generates a Secure Electronic Transfer Reference
+                        Number and enrols the user for HMRC Secure Electronic Transfer.
+                      enum:
+                      - secure-electronic-transfer
+                    - title: relief-at-source
+                      type: object
+                      description: Generates a Pension Scheme Administrator Identifier
+                        and enrols the user for Relief at Source.
+                      enum:
+                      - relief-at-source
+                    - title: customs-services
+                      type: object
+                      description: Generates an EORI number and enrols the user for
+                        Customs Services.
+                      enum:
+                      - customs-services
+                    - title: goods-vehicle-movements
+                      type: object
+                      description: Generates an EORI number and enrols the user for
+                        Goods Vehicle Movements.
+                      enum:
+                      - goods-vehicle-movements
+                    - title: import-control-system
+                      type: object
+                      description: Generates an EORI number and enrols the user for
+                        Import Control System.
+                      enum:
+                      - import-control-system
+                    - title: safety-and-security
+                      type: object
+                      description: Generates an EORI number and enrols the user for
+                        Safety and Security.
+                      enum:
+                      - safety-and-security
+                    - title: common-transit-convention-traders
+                      type: object
+                      description: Generates an EORI number and enrols the user for
+                        Common Transit Convention Traders.
+                      enum:
+                      - common-transit-convention-traders
+                    - title: common-transit-convention-traders-legacy
+                      type: object
+                      description: Generates an EORI number and enrols the user for
+                        legacy Common Transit Convention Traders.
+                      enum:
+                      - common-transit-convention-traders-legacy
+                    - title: excise-movement-control-system
+                      type: object
+                      description: Generates an Excise Number and enrols the user
+                        for Excise Movement Control System.
+                      enum:
+                      - excise-movement-control-system
+                    - title: modernisation-of-authorisations
+                      type: object
+                      description: Generates an EORI number and enrols the user for
+                        Modernisation of Authorisations.
+                      enum:
+                      - modernisation-of-authorisations
+                    - title: pillar-2
+                      type: object
+                      description: Generates a Pillar 2 ID and enrols the user for
+                        Pillar 2.
+                      enum:
+                      - pillar-2
+                    - title: disa
+                      type: object
+                      description: Generates an ISA Manager Z Reference and enrols
+                        the user for DISA.
+                      enum:
+                      - disa
+                eoriNumber:
+                  maxLength: 17
+                  minLength: 3
+                  type: string
+                  description: "Economic Operator Registration and Identification\
+                    \ (EORI) number. Regular expressions:<br><code>^(GB|XI)[0-9]{12,15}$</code>\
+                    \ A GB or XI EORI.<br><code>^[A-Z]{2}[0-9]{1,15}$</code> An EU\
+                    \ EORI."
+                exciseNumber:
+                  maxLength: 13
+                  minLength: 13
+                  pattern: "^[A-Z]{2}[a-zA-Z0-9]{11}$"
+                  type: string
+                  description: Excise Number. Must be enrolled with 'excise-movement-control-system'
+                    for this to be used
+                nino:
+                  type: string
+                  description: National Insurance number. Must be enrolled with 'national-insurance'
+                    or 'mtd-income-tax' services for this to be used.
+                taxPayerType:
+                  type: string
+                  description: Type of Self Assessment taxpayer One of 'Individual'
+                    or 'Partnership'
+                pillar2Id:
+                  type: string
+                  description: A Pillar 2 ID can be provided for the test organisation
+                zReference:
+                  type: string
+                  description: An ISA Manager Z Reference can be provided for the
+                    test organisation
+              description: Create Organisation Request
+      responses:
+        "201":
+          description: The organisation test user resource has been created.
+          content:
+            application/json:
+              schema:
+                required:
+                - emailAddress
+                - organisationDetails
+                - password
+                - userFullName
+                - userId
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    description: Government Gateway ID.
+                  password:
+                    type: string
+                    description: Government Gateway password.
+                  userFullName:
+                    type: string
+                    description: Government Gateway user's full name.
+                  emailAddress:
+                    type: string
+                    description: Government Gateway user's email address.
+                  organisationDetails:
+                    required:
+                    - address
+                    - name
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: Organisation name.
+                      address:
+                        required:
+                        - line1
+                        - line2
+                        - postcode
+                        type: object
+                        properties:
+                          line1:
+                            type: string
+                            description: Organisation's first line of address.
+                          line2:
+                            type: string
+                            description: Organisation's second line of address.
+                          postcode:
+                            type: string
+                            description: Organisation's postcode.
+                  individualDetails:
+                    required:
+                    - address
+                    - dateOfBirth
+                    - firstName
+                    - lastName
+                    type: object
+                    properties:
+                      firstName:
+                        type: string
+                        description: Individual's first name.
+                      lastName:
+                        type: string
+                        description: Individual's last name.
+                      dateOfBirth:
+                        type: string
+                        description: Individual's date of birth.
+                        format: date
+                      address:
+                        required:
+                        - line1
+                        - line2
+                        - postcode
+                        type: object
+                        properties:
+                          line1:
+                            type: string
+                            description: Individual's first line of address.
+                          line2:
+                            type: string
+                            description: Individual's second line of address.
+                          postcode:
+                            type: string
+                            description: Individual's postcode.
+                  saUtr:
+                    type: string
+                    description: Self Assessment UTR.
+                  nino:
+                    type: string
+                    description: National Insurance number.
+                  mtdItId:
+                    type: string
+                    description: Making Tax Digital Income Tax ID.
+                  empRef:
+                    type: string
+                    description: Employer Reference.
+                  ctUtr:
+                    type: string
+                    description: Corporation Tax UTR.
+                  vrn:
+                    type: string
+                    description: VAT Reference Number.
+                  vatRegistrationDate:
+                    type: string
+                    description: Date of registration for VAT.
+                    format: date
+                  lisaManagerReferenceNumber:
+                    type: string
+                    description: "LISA Manager Reference Number, in either 4-digit\
+                      \ format (Znnnn) or 6-digit format (Znnnnnn)."
+                  secureElectronicTransferReferenceNumber:
+                    type: string
+                    description: Secure Electronic Transfer reference number.
+                  pensionSchemeAdministratorIdentifier:
+                    type: string
+                    description: Pension Scheme Administrator Identifier.
+                  eoriNumber:
+                    type: string
+                    description: Economic Operator Registration and Identification
+                      (EORI) number.
+                  exciseNumber:
+                    type: string
+                    description: Excise Number.
+                  crn:
+                    type: string
+                    description: Company Reference Number
+                  taxPayerType:
+                    type: string
+                    description: Type of Self Assessment taxpayer One of 'Individual'
+                      or 'Partnership'
+                  pillar2Id:
+                    type: string
+                    description: Pillar 2 ID
+                  zReference:
+                    type: string
+                    description: "ISA Manager Z Reference, in 4-digit format (Znnnn)."
+                description: Create Organisation Response
+      deprecated: false
+      security:
+      - applicationRestricted: []
+  /create-test-user/agents:
+    post:
+      tags:
+      - create-test-user
+      summary: Create a test user which is an agent
+      description: "This resource creates and returns a test user which is an agent.\
+        \ The caller can specify the required service enrolments in the request body.\
+        \ If no request body is supplied, the test user is created with no service\
+        \ enrolments.  Test users that have not been tested against within a 3-month\
+        \ period will be automatically deleted."
+      operationId: Createatestuserwhichisanagent
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              required:
+              - serviceNames
+              type: object
+              properties:
+                serviceNames:
+                  minItems: 0
+                  uniqueItems: true
+                  type: array
+                  description: "A list of services that the user should be enrolled\
+                    \ for. To create a test user with no services, leave the list\
+                    \ empty."
+                  items:
+                    type: string
+                    oneOf:
+                    - title: agent-services
+                      type: object
+                      description: Generates an agent services account reference number
+                        and enrols the user for agent services.
+                      enum:
+                      - agent-services
+              description: Create Agent Request
+      responses:
+        "201":
+          description: The agent test user resource has been created.
+          content:
+            application/json:
+              schema:
+                required:
+                - emailAddress
+                - password
+                - userFullName
+                - userId
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    description: Government Gateway ID.
+                  password:
+                    type: string
+                    description: Government Gateway password.
+                  userFullName:
+                    type: string
+                    description: Government Gateway user's full name.
+                  emailAddress:
+                    type: string
+                    description: Government Gateway user's email address.
+                  agentServicesAccountNumber:
+                    type: string
+                    description: Agent services account reference number.
+                description: Create Agent Response
+      deprecated: false
+      security:
+      - applicationRestricted: []
+  /create-test-user/services:
+    get:
+      tags:
+      - create-test-user
+      summary: Get available services
+      description: This resource provides a list of all the available services together
+        with which test user types can enrol to each.
+      operationId: Getavailableservices
+      parameters: []
+      responses:
+        "200":
+          description: The services available for enrolment
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Get Services Response
+      deprecated: false
+      security:
+      - applicationRestricted: []
+components:
+  schemas:
+    create-individual-request:
+      required:
+      - serviceNames
+      type: object
+      properties:
+        serviceNames:
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: "A list of services that the user should be enrolled for. To\
+            \ create a test user with no services, leave the list empty."
+          items:
+            type: string
+            oneOf:
+            - title: national-insurance
+              type: object
+              description: Generates a National Insurance number and enrols the user
+                for National Insurance.
+              enum:
+              - national-insurance
+            - title: self-assessment
+              type: object
+              description: Generates a Self Assessment UTR and enrols the user for
+                Self Assessment.
+              enum:
+              - self-assessment
+            - title: mtd-income-tax
+              type: object
+              description: Generates a National Insurance number and a Making Tax
+                Digital Income Tax ID and enrols the user for Making Tax Digital Income
+                Tax.
+              enum:
+              - mtd-income-tax
+            - title: customs-services
+              type: object
+              description: Generates an EORI number and enrols the user for Customs
+                Services.
+              enum:
+              - customs-services
+            - title: goods-vehicle-movements
+              type: object
+              description: Generates an EORI number and enrols the user for Goods
+                Vehicle Movements.
+              enum:
+              - goods-vehicle-movements
+            - title: import-control-system
+              type: object
+              description: Generates an EORI number and enrols the user for Import
+                Control System.
+              enum:
+              - import-control-system
+            - title: mtd-vat
+              type: object
+              description: Generates a VAT Registration Number and a date of registration
+                for VAT and enrols the user for Making Tax Digital VAT.
+              enum:
+              - mtd-vat
+            - title: common-transit-convention-traders
+              type: object
+              description: Generates an EORI number and enrols the user for Common
+                Transit Convention Traders.
+              enum:
+              - common-transit-convention-traders
+            - title: common-transit-convention-traders-legacy
+              type: object
+              description: Generates an EORI number and enrols the user for legacy
+                Common Transit Convention Traders.
+              enum:
+              - common-transit-convention-traders-legacy
+        eoriNumber:
+          maxLength: 17
+          minLength: 3
+          type: string
+          description: "Economic Operator Registration and Identification (EORI) number.\
+            \ Regular expressions:<br><code>^(GB|XI)[0-9]{12,15}$</code> A GB or XI\
+            \ EORI.<br><code>^[A-Z]{2}[0-9]{1,15}$</code> An EU EORI."
+        nino:
+          type: string
+          description: National Insurance number. Must be enrolled with 'national-insurance'
+            or 'mtd-income-tax' services for this to be used.
+      description: Create Individual Request
+    create-individual-response:
+      required:
+      - emailAddress
+      - individualDetails
+      - password
+      - userFullName
+      - userId
+      type: object
+      properties:
+        userId:
+          type: string
+          description: Government Gateway ID.
+        password:
+          type: string
+          description: Government Gateway password.
+        userFullName:
+          type: string
+          description: Government Gateway user's full name.
+        emailAddress:
+          type: string
+          description: Government Gateway user's email address.
+        individualDetails:
+          required:
+          - address
+          - dateOfBirth
+          - firstName
+          - lastName
+          type: object
+          properties:
+            firstName:
+              type: string
+              description: Individual's first name.
+            lastName:
+              type: string
+              description: Individual's last name.
+            dateOfBirth:
+              type: string
+              description: Individual's date of birth.
+              format: date
+            address:
+              required:
+              - line1
+              - line2
+              - postcode
+              type: object
+              properties:
+                line1:
+                  type: string
+                  description: Individual's first line of address.
+                line2:
+                  type: string
+                  description: Individual's second line of address.
+                postcode:
+                  type: string
+                  description: Individual's postcode.
+        saUtr:
+          type: string
+          description: Self Assessment UTR.
+        nino:
+          type: string
+          description: National Insurance number.
+        mtdItId:
+          type: string
+          description: Making Tax Digital Income Tax ID.
+        eoriNumber:
+          type: string
+          description: Economic Operator Registration and Identification (EORI) number.
+        vrn:
+          type: string
+          description: VAT Reference Number.
+        vatRegistrationDate:
+          type: string
+          description: Date of registration for VAT.
+          format: date
+      description: Create Individual Response
+    create-organisation-request:
+      required:
+      - serviceNames
+      type: object
+      properties:
+        serviceNames:
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: "A list of services that the user should be enrolled for. To\
+            \ create a test user with no services, leave the list empty."
+          items:
+            type: string
+            oneOf:
+            - title: corporation-tax
+              type: object
+              description: "Generates a Corporation Tax Unique Taxpayer Reference\
+                \ (CTUTR), a Company Registration Number (CRN) and enrols the user\
+                \ for Corporation Tax."
+              enum:
+              - corporation-tax
+            - title: paye-for-employers
+              type: object
+              description: Generates an Employer Reference and enrols the user for
+                PAYE for Employers.
+              enum:
+              - paye-for-employers
+            - title: submit-vat-returns
+              type: object
+              description: Generates a VAT Registration Number and enrols the user
+                for Submit VAT Returns.
+              enum:
+              - submit-vat-returns
+            - title: national-insurance
+              type: object
+              description: Generates a National Insurance number and enrols the user
+                for National Insurance.
+              enum:
+              - national-insurance
+            - title: self-assessment
+              type: object
+              description: Generates a Self Assessment UTR and enrols the user for
+                Self Assessment.
+              enum:
+              - self-assessment
+            - title: mtd-income-tax
+              type: object
+              description: Generates a National Insurance number and a Making Tax
+                Digital Income Tax ID and enrols the user for Making Tax Digital Income
+                Tax.
+              enum:
+              - mtd-income-tax
+            - title: mtd-vat
+              type: object
+              description: Generates a VAT Registration Number and a date of registration
+                for VAT and enrols the user for Making Tax Digital VAT.
+              enum:
+              - mtd-vat
+            - title: lisa
+              type: object
+              description: Generates a LISA Manager Reference Number and enrols the
+                user for Lifetime ISA.
+              enum:
+              - lisa
+            - title: secure-electronic-transfer
+              type: object
+              description: Generates a Secure Electronic Transfer Reference Number
+                and enrols the user for HMRC Secure Electronic Transfer.
+              enum:
+              - secure-electronic-transfer
+            - title: relief-at-source
+              type: object
+              description: Generates a Pension Scheme Administrator Identifier and
+                enrols the user for Relief at Source.
+              enum:
+              - relief-at-source
+            - title: customs-services
+              type: object
+              description: Generates an EORI number and enrols the user for Customs
+                Services.
+              enum:
+              - customs-services
+            - title: goods-vehicle-movements
+              type: object
+              description: Generates an EORI number and enrols the user for Goods
+                Vehicle Movements.
+              enum:
+              - goods-vehicle-movements
+            - title: import-control-system
+              type: object
+              description: Generates an EORI number and enrols the user for Import
+                Control System.
+              enum:
+              - import-control-system
+            - title: safety-and-security
+              type: object
+              description: Generates an EORI number and enrols the user for Safety
+                and Security.
+              enum:
+              - safety-and-security
+            - title: common-transit-convention-traders
+              type: object
+              description: Generates an EORI number and enrols the user for Common
+                Transit Convention Traders.
+              enum:
+              - common-transit-convention-traders
+            - title: common-transit-convention-traders-legacy
+              type: object
+              description: Generates an EORI number and enrols the user for legacy
+                Common Transit Convention Traders.
+              enum:
+              - common-transit-convention-traders-legacy
+            - title: excise-movement-control-system
+              type: object
+              description: Generates an Excise Number and enrols the user for Excise
+                Movement Control System.
+              enum:
+              - excise-movement-control-system
+            - title: modernisation-of-authorisations
+              type: object
+              description: Generates an EORI number and enrols the user for Modernisation
+                of Authorisations.
+              enum:
+              - modernisation-of-authorisations
+            - title: pillar-2
+              type: object
+              description: Generates a Pillar 2 ID and enrols the user for Pillar
+                2.
+              enum:
+              - pillar-2
+            - title: disa
+              type: object
+              description: Generates an ISA Manager Z Reference and enrols the user
+                for DISA.
+              enum:
+              - disa
+        eoriNumber:
+          maxLength: 17
+          minLength: 3
+          type: string
+          description: "Economic Operator Registration and Identification (EORI) number.\
+            \ Regular expressions:<br><code>^(GB|XI)[0-9]{12,15}$</code> A GB or XI\
+            \ EORI.<br><code>^[A-Z]{2}[0-9]{1,15}$</code> An EU EORI."
+        exciseNumber:
+          maxLength: 13
+          minLength: 13
+          pattern: "^[A-Z]{2}[a-zA-Z0-9]{11}$"
+          type: string
+          description: Excise Number. Must be enrolled with 'excise-movement-control-system'
+            for this to be used
+        nino:
+          type: string
+          description: National Insurance number. Must be enrolled with 'national-insurance'
+            or 'mtd-income-tax' services for this to be used.
+        taxPayerType:
+          type: string
+          description: Type of Self Assessment taxpayer One of 'Individual' or 'Partnership'
+        pillar2Id:
+          type: string
+          description: A Pillar 2 ID can be provided for the test organisation
+        zReference:
+          type: string
+          description: An ISA Manager Z Reference can be provided for the test organisation
+      description: Create Organisation Request
+    create-organisation-response:
+      required:
+      - emailAddress
+      - organisationDetails
+      - password
+      - userFullName
+      - userId
+      type: object
+      properties:
+        userId:
+          type: string
+          description: Government Gateway ID.
+        password:
+          type: string
+          description: Government Gateway password.
+        userFullName:
+          type: string
+          description: Government Gateway user's full name.
+        emailAddress:
+          type: string
+          description: Government Gateway user's email address.
+        organisationDetails:
+          required:
+          - address
+          - name
+          type: object
+          properties:
+            name:
+              type: string
+              description: Organisation name.
+            address:
+              required:
+              - line1
+              - line2
+              - postcode
+              type: object
+              properties:
+                line1:
+                  type: string
+                  description: Organisation's first line of address.
+                line2:
+                  type: string
+                  description: Organisation's second line of address.
+                postcode:
+                  type: string
+                  description: Organisation's postcode.
+        individualDetails:
+          required:
+          - address
+          - dateOfBirth
+          - firstName
+          - lastName
+          type: object
+          properties:
+            firstName:
+              type: string
+              description: Individual's first name.
+            lastName:
+              type: string
+              description: Individual's last name.
+            dateOfBirth:
+              type: string
+              description: Individual's date of birth.
+              format: date
+            address:
+              required:
+              - line1
+              - line2
+              - postcode
+              type: object
+              properties:
+                line1:
+                  type: string
+                  description: Individual's first line of address.
+                line2:
+                  type: string
+                  description: Individual's second line of address.
+                postcode:
+                  type: string
+                  description: Individual's postcode.
+        saUtr:
+          type: string
+          description: Self Assessment UTR.
+        nino:
+          type: string
+          description: National Insurance number.
+        mtdItId:
+          type: string
+          description: Making Tax Digital Income Tax ID.
+        empRef:
+          type: string
+          description: Employer Reference.
+        ctUtr:
+          type: string
+          description: Corporation Tax UTR.
+        vrn:
+          type: string
+          description: VAT Reference Number.
+        vatRegistrationDate:
+          type: string
+          description: Date of registration for VAT.
+          format: date
+        lisaManagerReferenceNumber:
+          type: string
+          description: "LISA Manager Reference Number, in either 4-digit format (Znnnn)\
+            \ or 6-digit format (Znnnnnn)."
+        secureElectronicTransferReferenceNumber:
+          type: string
+          description: Secure Electronic Transfer reference number.
+        pensionSchemeAdministratorIdentifier:
+          type: string
+          description: Pension Scheme Administrator Identifier.
+        eoriNumber:
+          type: string
+          description: Economic Operator Registration and Identification (EORI) number.
+        exciseNumber:
+          type: string
+          description: Excise Number.
+        crn:
+          type: string
+          description: Company Reference Number
+        taxPayerType:
+          type: string
+          description: Type of Self Assessment taxpayer One of 'Individual' or 'Partnership'
+        pillar2Id:
+          type: string
+          description: Pillar 2 ID
+        zReference:
+          type: string
+          description: "ISA Manager Z Reference, in 4-digit format (Znnnn)."
+      description: Create Organisation Response
+    create-agent-request:
+      required:
+      - serviceNames
+      type: object
+      properties:
+        serviceNames:
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: "A list of services that the user should be enrolled for. To\
+            \ create a test user with no services, leave the list empty."
+          items:
+            type: string
+            oneOf:
+            - title: agent-services
+              type: object
+              description: Generates an agent services account reference number and
+                enrols the user for agent services.
+              enum:
+              - agent-services
+      description: Create Agent Request
+    create-agent-response:
+      required:
+      - emailAddress
+      - password
+      - userFullName
+      - userId
+      type: object
+      properties:
+        userId:
+          type: string
+          description: Government Gateway ID.
+        password:
+          type: string
+          description: Government Gateway password.
+        userFullName:
+          type: string
+          description: Government Gateway user's full name.
+        emailAddress:
+          type: string
+          description: Government Gateway user's email address.
+        agentServicesAccountNumber:
+          type: string
+          description: Agent services account reference number.
+      description: Create Agent Response
+    get-services-response:
+      type: array
+      description: Get Services Response
+      items:
+        type: object
+        properties:
+          key:
+            type: string
+            description: The key of the service
+          name:
+            type: string
+            description: The human readable name of the service
+          allowedUserTypes:
+            type: array
+            description: The user types which may enrol to the service
+            items:
+              type: string
+              description: The user type
+  securitySchemes:
+    applicationRestricted:
+      type: oauth2
+      description: |
+        HMRC supports OAuth 2.0 for authenticating application restricted API requests using an OAuth 2.0 Bearer Token in the AUTHORIZATION header.
+        See https://developer.service.hmrc.gov.uk/api-documentation/docs/authorisation/application-restricted-endpoints for details.
+      flows:
+        clientCredentials:
+          tokenUrl: https://test-api.service.hmrc.gov.uk/oauth/token
+          scopes: {}
