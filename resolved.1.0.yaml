@@ -96,6 +96,18 @@ paths:
                         legacy Common Transit Convention Traders.
                       enum:
                       - common-transit-convention-traders-legacy
+                    - title: capital-gains-tax-uk-property
+                      type: object
+                      description: Generates a Capital Gains Tax on UK Property reference
+                        and enrols the user for Capital Gains Tax on UK Property.
+                      enum:
+                      - capital-gains-tax-uk-property
+                    - title: plastic-packaging-tax
+                      type: object
+                      description: Generates a Plastic Packaging Tax registration
+                        number and enrols the user for Plastic Packaging Tax.
+                      enum:
+                      - plastic-packaging-tax
                 eoriNumber:
                   maxLength: 17
                   minLength: 3
@@ -189,6 +201,12 @@ paths:
                     type: string
                     description: Date of registration for VAT.
                     format: date
+                  capitalGainsTaxOnUKPropertyReference:
+                    type: string
+                    description: Capital Gains Tax on UK Property reference.
+                  plasticPackagingTaxRegistrationNumber:
+                    type: string
+                    description: Plastic Packaging Tax registration number.
                 description: Create Individual Response
       deprecated: false
       security:
@@ -347,6 +365,33 @@ paths:
                         the user for DISA.
                       enum:
                       - disa
+                    - title: capital-gains-tax-uk-property
+                      type: object
+                      description: Generates a Capital Gains Tax on UK Property reference
+                        and enrols the user for Capital Gains Tax on UK Property.
+                      enum:
+                      - capital-gains-tax-uk-property
+                    - title: plastic-packaging-tax
+                      type: object
+                      description: Generates a Plastic Packaging Tax registration
+                        number and enrols the user for Plastic Packaging Tax.
+                      enum:
+                      - plastic-packaging-tax
+                    - title: country-by-country-reporting
+                      type: object
+                      description: Generates a Country-by-Country Reporting ID and
+                        Unique Taxpayer Reference and enrols the user for UK Country-by-Country
+                        Reporting.
+                      enum:
+                      - country-by-country-reporting
+                    - title: trusts
+                      type: object
+                      description: Generates a Unique Taxpayer Reference and Unique
+                        Reference Number and enrols the user for both taxable and
+                        non-taxable Trusts. This combined profile is intended for
+                        delegated-authorisation testing.
+                      enum:
+                      - trusts
                 eoriNumber:
                   maxLength: 17
                   minLength: 3
@@ -515,6 +560,21 @@ paths:
                   zReference:
                     type: string
                     description: "ISA Manager Z Reference, in 4-digit format (Znnnn)."
+                  capitalGainsTaxOnUKPropertyReference:
+                    type: string
+                    description: Capital Gains Tax on UK Property reference.
+                  plasticPackagingTaxRegistrationNumber:
+                    type: string
+                    description: Plastic Packaging Tax registration number.
+                  countryByCountryReportingId:
+                    type: string
+                    description: Country-by-Country Reporting ID.
+                  trustsUniqueTaxpayerReference:
+                    type: string
+                    description: Unique Taxpayer Reference for a taxable trust.
+                  trustsUniqueReferenceNumber:
+                    type: string
+                    description: Unique Reference Number for a non-taxable trust.
                 description: Create Organisation Response
       deprecated: false
       security:
@@ -680,6 +740,18 @@ components:
                 Common Transit Convention Traders.
               enum:
               - common-transit-convention-traders-legacy
+            - title: capital-gains-tax-uk-property
+              type: object
+              description: Generates a Capital Gains Tax on UK Property reference
+                and enrols the user for Capital Gains Tax on UK Property.
+              enum:
+              - capital-gains-tax-uk-property
+            - title: plastic-packaging-tax
+              type: object
+              description: Generates a Plastic Packaging Tax registration number and
+                enrols the user for Plastic Packaging Tax.
+              enum:
+              - plastic-packaging-tax
         eoriNumber:
           maxLength: 17
           minLength: 3
@@ -766,6 +838,12 @@ components:
           type: string
           description: Date of registration for VAT.
           format: date
+        capitalGainsTaxOnUKPropertyReference:
+          type: string
+          description: Capital Gains Tax on UK Property reference.
+        plasticPackagingTaxRegistrationNumber:
+          type: string
+          description: Plastic Packaging Tax registration number.
       description: Create Individual Response
     create-organisation-request:
       required:
@@ -903,6 +981,31 @@ components:
                 for DISA.
               enum:
               - disa
+            - title: capital-gains-tax-uk-property
+              type: object
+              description: Generates a Capital Gains Tax on UK Property reference
+                and enrols the user for Capital Gains Tax on UK Property.
+              enum:
+              - capital-gains-tax-uk-property
+            - title: plastic-packaging-tax
+              type: object
+              description: Generates a Plastic Packaging Tax registration number and
+                enrols the user for Plastic Packaging Tax.
+              enum:
+              - plastic-packaging-tax
+            - title: country-by-country-reporting
+              type: object
+              description: Generates a Country-by-Country Reporting ID and Unique
+                Taxpayer Reference and enrols the user for UK Country-by-Country Reporting.
+              enum:
+              - country-by-country-reporting
+            - title: trusts
+              type: object
+              description: Generates a Unique Taxpayer Reference and Unique Reference
+                Number and enrols the user for both taxable and non-taxable Trusts.
+                This combined profile is intended for delegated-authorisation testing.
+              enum:
+              - trusts
         eoriNumber:
           maxLength: 17
           minLength: 3
@@ -1061,6 +1164,21 @@ components:
         zReference:
           type: string
           description: "ISA Manager Z Reference, in 4-digit format (Znnnn)."
+        capitalGainsTaxOnUKPropertyReference:
+          type: string
+          description: Capital Gains Tax on UK Property reference.
+        plasticPackagingTaxRegistrationNumber:
+          type: string
+          description: Plastic Packaging Tax registration number.
+        countryByCountryReportingId:
+          type: string
+          description: Country-by-Country Reporting ID.
+        trustsUniqueTaxpayerReference:
+          type: string
+          description: Unique Taxpayer Reference for a taxable trust.
+        trustsUniqueReferenceNumber:
+          type: string
+          description: Unique Reference Number for a non-taxable trust.
       description: Create Organisation Response
     create-agent-request:
       required:
