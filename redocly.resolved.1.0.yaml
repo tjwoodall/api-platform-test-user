@@ -71,6 +71,14 @@ paths:
                             enum:
                               - common-transit-convention-traders-legacy
                             description: Generates an EORI number and enrols the user for legacy Common Transit Convention Traders.
+                          - title: capital-gains-tax-uk-property
+                            enum:
+                              - capital-gains-tax-uk-property
+                            description: Generates a Capital Gains Tax on UK Property reference and enrols the user for Capital Gains Tax on UK Property.
+                          - title: plastic-packaging-tax
+                            enum:
+                              - plastic-packaging-tax
+                            description: Generates a Plastic Packaging Tax registration number and enrols the user for Plastic Packaging Tax.
                       uniqueItems: true
                     eoriNumber:
                       type: string
@@ -159,6 +167,12 @@ paths:
                         type: string
                         format: date
                         description: Date of registration for VAT.
+                      capitalGainsTaxOnUKPropertyReference:
+                        type: string
+                        description: Capital Gains Tax on UK Property reference.
+                      plasticPackagingTaxRegistrationNumber:
+                        type: string
+                        description: Plastic Packaging Tax registration number.
                     required:
                       - userId
                       - password
@@ -273,6 +287,22 @@ paths:
                             enum:
                               - disa
                             description: Generates an ISA Manager Z Reference and enrols the user for DISA.
+                          - title: capital-gains-tax-uk-property
+                            enum:
+                              - capital-gains-tax-uk-property
+                            description: Generates a Capital Gains Tax on UK Property reference and enrols the user for Capital Gains Tax on UK Property.
+                          - title: plastic-packaging-tax
+                            enum:
+                              - plastic-packaging-tax
+                            description: Generates a Plastic Packaging Tax registration number and enrols the user for Plastic Packaging Tax.
+                          - title: country-by-country-reporting
+                            enum:
+                              - country-by-country-reporting
+                            description: Generates a Country-by-Country Reporting ID and Unique Taxpayer Reference and enrols the user for UK Country-by-Country Reporting.
+                          - title: trusts
+                            enum:
+                              - trusts
+                            description: Generates a Unique Taxpayer Reference and Unique Reference Number and enrols the user for both taxable and non-taxable Trusts. This combined profile is intended for delegated-authorisation testing.
                       uniqueItems: true
                     eoriNumber:
                       type: string
@@ -431,6 +461,21 @@ paths:
                       zReference:
                         type: string
                         description: ISA Manager Z Reference, in 4-digit format (Znnnn).
+                      capitalGainsTaxOnUKPropertyReference:
+                        type: string
+                        description: Capital Gains Tax on UK Property reference.
+                      plasticPackagingTaxRegistrationNumber:
+                        type: string
+                        description: Plastic Packaging Tax registration number.
+                      countryByCountryReportingId:
+                        type: string
+                        description: Country-by-Country Reporting ID.
+                      trustsUniqueTaxpayerReference:
+                        type: string
+                        description: Unique Taxpayer Reference for a taxable trust.
+                      trustsUniqueReferenceNumber:
+                        type: string
+                        description: Unique Reference Number for a non-taxable trust.
                     required:
                       - userId
                       - password
